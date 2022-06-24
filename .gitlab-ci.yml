@@ -1,0 +1,27 @@
+stages:
+- build
+- deploy
+
+build:
+  stage: build
+  image:
+    name: node:16
+  script:
+    - echo "Building deploy package"
+    - yarn config set httpTimeout 300000
+    - yarn install
+    - yarn build
+    - echo "Build successful"
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+
+deploy:
+  stage: deploy
+  image:
+    name: minio/mc
+  script:
+    - echo "Deploying to S3 storage"
+    - mc config host add s3 ${S3_ENDPOINT} ${S3_ACCESS_KEY} ${S3_SECRET_KEY} --api "s3v4"
+    - mc mirror --remove --overwrite $CI_PROJECT_DIR/build/ s3/${CI_PROJECT_NAME}/

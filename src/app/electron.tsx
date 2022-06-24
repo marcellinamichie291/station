@@ -24,7 +24,7 @@ export default electron
 
 /* Download links */
 const DOWNLOAD =
-  "https://github.com/terra-money/station-desktop/releases/download"
+  "https://github.com/terra-rebels/station-desktop/releases/download"
 
 export const links = [
   {

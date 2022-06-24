@@ -1,9 +1,9 @@
 import { StrictMode } from "react"
-import { createRoot } from "react-dom/client"
+import { render } from "react-dom"
 import { BrowserRouter } from "react-router-dom"
 import { ReactQueryDevtools } from "react-query/devtools"
 import { RecoilRoot } from "recoil"
-import { getChainOptions, WalletProvider } from "@terra-money/wallet-provider"
+import { getChainOptions, WalletProvider } from "@terra-rebels/wallet-provider"
 import "tippy.js/dist/tippy.css"
 
 import "config/lang"
@@ -20,10 +20,8 @@ import App from "app/App"
 
 const connectorOpts = { bridge: BRIDGE }
 
-const root = createRoot(document.getElementById("station") as HTMLElement)
-
 getChainOptions().then((chainOptions) =>
-  root.render(
+  render(
     <StrictMode>
       <RecoilRoot>
         <BrowserRouter>
@@ -40,6 +38,7 @@ getChainOptions().then((chainOptions) =>
           {debug.query && <ReactQueryDevtools position="bottom-right" />}
         </BrowserRouter>
       </RecoilRoot>
-    </StrictMode>
+    </StrictMode>,
+    document.getElementById("station")
   )
 )
